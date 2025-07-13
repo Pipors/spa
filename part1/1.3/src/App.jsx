@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-                               /* PART 1.1 - 1.2 */
+/* PART 1.3 */
 
 // The header function remains unchanged for the 2 parts
 const Header = ({ course }) => {
@@ -20,12 +20,13 @@ const Part = ({ part, exercise }) => {
 }
 
 
-const Content = ({parts}) => {
+const Content = (parts) => {
+    const { part1, part2, part3, exercises1, exercises2, exercises3 } = parts
     return (
         <div>
-            <Part part={parts[0].part1} exercise={parts[0].exercises1} />
-            <Part part={parts[1].part2} exercise={parts[1].exercises2} />
-            <Part part={parts[2].part3} exercise={parts[2].exercises3} />
+            <Part part={part1} exercise={exercises1} />
+            <Part part={part2} exercise={exercises2} />
+            <Part part={part3} exercise={exercises3} />
         </div>
     )
 }
@@ -39,31 +40,33 @@ const Total = ({ total }) => {
 }
 
 
+
 const App = () => {
     const course = 'Half Stack application development'
-    const parts = [
-        {
-            part1: 'Fundamentals of React',
-            exercises1: 10
-        },
-        {
-            part2: 'Using props to pass data',
-            exercises2: 7
-        },
-        {
-            part3: 'State of a component',
-            exercises3: 14
-        }
-    ];
-
+    const part1 = {
+        name: 'Fundamentals of React',
+        exercises: 10
+    }
+    const part2 = {
+        name: 'Using props to pass data',
+        exercises: 7
+    }
+    const part3 = {
+        name: 'State of a component',
+        exercises: 14
+    }
 
     return (
-        <>
-            <Header course={course} />
-            <Content parts={parts} />
-            <Total total={parts[0].exercises1 + parts[1].exercises2 + parts[2].exercises3} />
-        </>
+        <div>
+                <Header course={course} />
+                <Content
+                    part1={part1.name} exercises1={part1.exercises}
+                    part2={part2.name} exercises2={part2.exercises}
+                    part3={part3.name} exercises3={part3.exercises}
+                />
+                <Total total={part1.exercises + part2.exercises + part3.exercises} />
+        </div>
     )
 }
- 
+
 export default App
