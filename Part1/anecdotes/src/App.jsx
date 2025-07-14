@@ -20,9 +20,8 @@ const App = () => {
         'The only way to go fast, is to go well.'
     ]
 
-    let index = 0
     const [selected, setSelected] = useState(0)
-    const [arr, setArr] = useState({
+    const [obj, setObj] = useState({
         '0': 0,
         '1': 0,
         '2': 0,
@@ -33,28 +32,26 @@ const App = () => {
         '7': 0
     })
 
-    //const [highestVote, setHighestVote] = useState(0)
-    let highestVote = 0
     const handleClick = () => {
 
         /*setSelected is async function so the value of selected wont be update instantly 
         so the value of selected at the time of calling the function 'selected' still holds the value of the last render*/
         setSelected(Math.floor(Math.random() * anecdotes.length))
 
-        //console.log("selected 1:", selected)
+        //console.log("selected :", selected)
     }
 
 
     const handleVote = () => {
        // Create a copy of the arr object to avoid mutating the original state directly.
        // The spread operator (...) is used to create a shallow copy of the arr object.
-       const copy = { ...arr };
+       const copy = { ...obj };
     
        // Increment the vote count for the currently selected anecdote.
        copy[selected] += 1;
     
         // Update the state with the modified copy.
-       setArr(copy);
+       setObj(copy);
        //console.log(copy);
     }
 
@@ -69,7 +66,7 @@ const App = () => {
             <Button onClick={handleVote} text="vote" />
             <Button onClick={handleClick} text="next anectode" />
             <Header text="Anecdote with the most votes" />
-            {anecdotes[(Object.entries(arr).reduce((max, current) => current[1] > max[1] ? current : max))[0]]}
+            {anecdotes[(Object.entries(obj).reduce((max, current) => current[1] > max[1] ? current : max))[0]]}
         </div>
     )
 }
