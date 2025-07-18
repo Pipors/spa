@@ -35,7 +35,7 @@ const Content = ({ courses }) => {
                         }
                         <Total parts={parts} />
                     </div>
-                );
+                )
             })
         }
         </>

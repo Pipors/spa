@@ -45,14 +45,14 @@ const App = () => {
     const handleVote = () => {
        // Create a copy of the arr object to avoid mutating the original state directly.
        // The spread operator (...) is used to create a shallow copy of the arr object.
-       const copy = { ...obj };
+       const copy = { ...obj }
     
        // Increment the vote count for the currently selected anecdote.
-       copy[selected] += 1;
+       copy[selected] += 1
     
         // Update the state with the modified copy.
-       setObj(copy);
-       //console.log(copy);
+       setObj(copy)
+       //console.log(copy)
     }
 
     let maxEntry = 0

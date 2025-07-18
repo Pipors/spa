@@ -48,7 +48,7 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const nameExists = persons.some(person => person.name === newName);
+  const nameExists = persons.some(person => person.name === newName)
 
   //Creating a new contact object and adding it to the persons array
   const addContact = (event) => {

@@ -1,31 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import {Form, List, Header} from './components/Utils'
 
-const Header = ({ text }) => <h2> {text} </h2>
-
-const Form = ({newName, newNumber, addContact, handleNameChange, handleNumberChange}) => {
-  
-  return (
-    <form onSubmit={addContact}>
-      <div>
-        name: <input  value={newName}  onChange={handleNameChange}  />
-      </div>
-      <div>number: <input value={newNumber}  onChange={handleNumberChange}/></div>
-      <div><button type="submit">add</button></div>
-    </form>
-  )
-}
-
-const List = ({persons}) => {
-  return (
-    <div>
-      {
-        persons.map(person => ( <p key={person.name}>{person.name} {person.number}</p>))
-      }
-    </div>
-    )
+const Reder = ({filtered, persons}) => {
+  if (filtered.length !== 0) 
+  {
+    return <List persons={filtered} /> 
+  }
+  else 
+  {
+    return <List persons={persons} />
+  }
 }
 
 const App = () => {
+
+
   // Where all numbers will be stored
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -34,12 +23,16 @@ const App = () => {
     { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
   ])
 
+
+  // const [foundPerson, setFoundPerson] = useState([])
+
   // For inserting one Contact
   const [newName, setNewName] = useState('')
-
   const [newNumber, setNewNumber] = useState('')
+  const [newSearch, setNewSearch] = useState('')
+  const [filtered, setFiltered] = useState([...persons])
   
-  
+
   // Setting value each time the user enters something in input field
   // it sets the newName to the value present in the input filed 
   // 'before even submitting or clicking add button'
@@ -51,37 +44,68 @@ const App = () => {
     setNewNumber(event.target.value)
   }
 
-  const nameExists = persons.some(person => person.name === newName);
+  const handleSearchPerson = (event) => {
+    setNewSearch(event.target.value)
 
+    let results = persons.filter(person =>
+      person.name.toLowerCase().includes(event.target.value.toLowerCase())
+    )
+    console.log('res', results)
+    setFiltered(results)
+  }
+
+
+
+  const nameExists = persons.some(person => {
+    return (
+      // console.log('newname',newName),
+      // console.log('person',person.name),
+      person.name === newName)
+  });
+  
+  
   //Creating a new contact object and adding it to the persons array
   const addContact = (event) => {
     event.preventDefault()
-
+    // console.log('name1',newName, 'number1',newNumber)
+    // console.log('ne',nameExists)
+    
     if (nameExists) 
     {
-       alert(`${newName} is already added to the phonebook`)
-       setNewName(' ')
-       setNewNumber('')
-       return
+      // persons.pop()
+      alert(`${newName} is already added to the phonebook`)
+      setNewName('')
+      setNewNumber('')
+      return
     }
-    // console.log('newName1', newName)
+    
     const contactObj = {
       name: newName,
       number: newNumber,
       id: String(persons.length + 1)
     }
-    setPersons(persons.concat(contactObj))
+    
+    // console.log('person',persons)
+    
+    
+    // console.log(persons)
     // console.log('check', contactObj)
-    setNewName(' ')
+    // refactor(setNewName, setNewNumber)
+    setNewName('')
     setNewNumber('')
-
-    // console.log('newName2', newName)
+    setPersons(persons.concat(contactObj))
+    console.log('name',newName, 'number',newNumber)
   }
-
+  
 
   return (
     <div>
       <Header text="Phonebook" />
+      <form onSubmit={(e)=> {e.preventDefault()}}> 
+        Filter shown with: 
+        <input  onChange={handleSearchPerson} value={newSearch}/>
+      </form>
+      <Header text="add a new" />
       <Form  
         newName={newName} 
         newNumber={newNumber}
@@ -91,8 +115,10 @@ const App = () => {
       <Header text="Numbers" />
       <ul>
         {
-          <List persons={persons}/>
+          <Reder filtered={filtered} persons={persons} />
+          
         }
+        {/* <List persons={persons} />  */}
       </ul>
     </div>
   )
