@@ -3,4 +3,4 @@
 ./anecdotes/node_modules
 ./Part2/2.1-2.3/node_modules
 ./Part2/2.4-2.5/node_modules
-./practise/
+./practise/*
